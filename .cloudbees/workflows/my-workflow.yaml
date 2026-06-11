@@ -1,22 +1,22 @@
-  apiVersion: automation.cloudbees.io/v1alpha1
-  kind: workflow
-  name: Register ECR Binary
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: Register ECR Binary
 
-  on:
-    push:
-      branches:
-        - "**"
+on:
+  push:
+    branches:
+      - "**"
 
-  jobs:
-    register:
-      steps:
-        - name: Register Build Artifact
-          uses: https://github.com/cloudbees-io/register-build-artifact@v2
-          with:
-            name: vulnerable-image
-            version: "0.1"
+jobs:
+  register:
+    steps:
+      - name: Register Build Artifact
+        uses: https://github.com/cloudbees-io/register-build-artifact@v2
+        with:
+          name: vulnerable-image
+          version: "0.1"
 
-        - name: Upload Binary
-          uses: https://github.com/cloudbees-io/asset-chain-utils/upload-binary@v1
-          with:
-            alias: 020229604682.dkr.ecr.us-east-1.amazonaws.com/throwaway/actions/vulnerable-image:0.1
+      - name: Upload Binary
+        uses: https://github.com/cloudbees-io/asset-chain-utils/upload-binary@v1
+        with:
+          alias: 020229604682.dkr.ecr.us-east-1.amazonaws.com/throwaway/actions/vulnerable-image:0.1
