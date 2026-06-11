@@ -8,7 +8,7 @@ on:
       - "**"
   workflow_dispatch:
 
-permissions: 
+permissions:
   scm-token-own: read
   scm-token-org: read
   id-token: write
@@ -16,39 +16,30 @@ permissions:
 jobs:
   build:
     steps:
-      - name: Get source code
-        uses: cloudbees-io/checkout@v1
+    - name: Get source code
+      uses: cloudbees-io/checkout@v1
 
-      - id: build-container
-        name: Build container image
-        uses: docker://gcr.io/kaniko-project/executor:debug
-        run: |
-          /kaniko/executor \
-            --context $CLOUDBEES_WORKSPACE \
-            --build-arg USER=cbp,TOKEN=${{ secrets.GH_SECURITY_PAT }} \
-            --dockerfile $CLOUDBEES_WORKSPACE/Dockerfile \
-            --tar-path $CLOUDBEES_WORKSPACE/container-image.tar \
-            --no-push
+    - name: Setup git credentials
+      uses: cloudbees-io/configure-git-global-credentials@v1
 
-      - id: register-artifact
-        name: Register the artifact
-        uses: cloudbees-io/register-build-artifact@v2
-        with:
-          name: qa-go-repo
-          version: 0.1
-          url: 020229604682.dkr.ecr.us-east-1.amazonaws.com/throwaway/actions/vulnerable-image:latest
+    - name: Login to AWS
+      id: aws-login
+      uses: cloudbees-io/configure-aws-credentials@v1
+      with:
+        aws-region: us-east-1
+        role-to-assume: ${{ vars.oidc_staging_iam_role }}
+        role-duration-seconds: "3600"
 
-      - name: Print output parameter artifact ID
-        uses: docker://alpine:latest
-        shell: sh
-        run: |
-          echo "artifact ID for qa-go-repo:${{ cloudbees.version }} is: ${{ steps.register-artifact.outputs.artifact-id }}"
+    - name: Configure container registry for AWS ECR
+      uses: cloudbees-io/configure-ecr-credentials@v1
 
-      - id: upload-binary
-        name: Upload binary using action
-        uses: cloudbees-io/asset-chain-utils-preprod/upload-binary@v1
-        with:
-          file-path: container-image.tar
-          file-type: BINARY_CONTAINER
-          debug: "true"
-          alias: 020229604682.dkr.ecr.us-east-1.amazonaws.com/throwaway/actions/vulnerable-image:latest
+    - id: build-container
+      name: Build container image
+      uses: cloudbees-io/kaniko@v1
+      kind: build
+      with:
+        destination: 020229604682.dkr.ecr.us-east-1.amazonaws.com/throwaway/actions/vulnerable-image:tag0.5
+        tar-path: container-image.tar
+        build-args: |
+          USER=cbp
+          TOKEN=${{ secrets.GH_SECURITY_PAT }}
