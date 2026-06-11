@@ -16,8 +16,4 @@ jobs:
         with:
           name: vulnerable-image
           version: "0.1"
-
-      - name: Upload Binary
-        uses: https://github.com/cloudbees-io/asset-chain-utils/upload-binary@v1
-        with:
-          alias: 020229604682.dkr.ecr.us-east-1.amazonaws.com/throwaway/actions/vulnerable-image:0.1
+          url: 020229604682.dkr.ecr.us-east-1.amazonaws.com/throwaway/actions/vulnerable-image:0.1
