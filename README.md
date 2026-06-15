@@ -11,7 +11,7 @@ This project is intended for security researchers, developers, and AI safety pro
 
 ## What is MCP?
 
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is a standardized protocol that allows applications to provide context for Large Language Models (LLMs) in a structured way. It separates the concerns of providing context from the actual LLM interaction, enabling applications to expose resources, tools, and prompts to LLMs.
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is a standardized protocol that allows applications to provide context for Large Language Models (LLMs) in a structured way. It separates the concerns of providing context from the actual LLM interaction, enabling applications to expose resources, tools, and prompts to LLMs..
 
 ## Recommended MCP Clients
 
