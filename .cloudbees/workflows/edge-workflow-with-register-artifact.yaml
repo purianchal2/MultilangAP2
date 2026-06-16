@@ -1,0 +1,25 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: edge-workflow-with-register-artifact
+
+on:
+  push:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+jobs:
+  my-edge-job:
+    with:
+      script: |
+        echo "Hello world! I'm $(whoami) on $(hostname)"
+      labels: "ap-test"
+    delegates: cloudbees-io/edge-custom-job/custom-job.yaml
+  register:
+    steps:
+      - name: Register Build Artifact
+        uses: cloudbees-io/register-build-artifact@v2
+        with:
+          name: vulnerable-image
+          version: "0.1"
+          url: 020229604682.dkr.ecr.us-east-1.amazonaws.com/throwaway/actions/vulnerable-image:0.1
