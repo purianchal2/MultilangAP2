@@ -1,0 +1,26 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: jfrog-publish-busybox
+on:
+  push:
+    branches:
+      - "**"
+  workflow_dispatch:
+jobs:
+  promote:
+    steps:
+      - name: Promote docker image to JFrog and register with Unify
+        uses: cloudbees-io/jfrog-artifactory-promote-image@v1
+        with:
+          url: cbjfrog.saas-preprod.beescloud.com
+          username: ${{ secrets.JFROG_USER }}
+          password: ${{ secrets.JFROG_PASS }}   # or use: token: ${{ secrets.JFROG_TOKEN }}
+          source-repository-name: test
+          source-image-name: busybox-test
+          source-tag: latest
+          target-repository-name: jfrog-test-docker-target-repo
+          target-image-name: busybox-test
+          target-tag: latest
+          isDocker: true        # REQUIRED: makes the registered artifact type docker/jfrog-docker-artifact
+          copy: true            # keep the source image (promote = copy, not move)
+          artifact-name: busybox-test
