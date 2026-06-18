@@ -12,7 +12,7 @@ jobs:
       - name: Promote docker image to JFrog and register with Unify
         uses: cloudbees-io/jfrog-artifactory-promote-image@v1
         with:
-          url: https://cbjfrog.saas-preprod.beescloud.com
+          url: https://cbjfrog.saas-preprod.beescloud.com/
           token: ${{ secrets.JFROG_TOKEN }}   # token auth; promote API rejects basic-auth password
           source-repository-name: test
           source-image-name: busybox-test
