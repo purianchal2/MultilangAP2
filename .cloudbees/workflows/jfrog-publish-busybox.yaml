@@ -13,8 +13,8 @@ jobs:
         uses: cloudbees-io/jfrog-artifactory-promote-image@v1
         with:
           url: cbjfrog.saas-preprod.beescloud.com
-          username: ${{ secrets.JFROG_USER }}
-          password: ${{ secrets.JFROG_PASS }}   # or use: token: ${{ secrets.JFROG_TOKEN }}
+          username: ${{ secrets.JFROG_ACTIONS_USERNAME }}
+          password: ${{ secrets.JFROG_ACTIONS_PASSWORD }}   # or use: token: ${{ secrets.JFROG_TOKEN }}
           source-repository-name: test
           source-image-name: busybox-test
           source-tag: latest
