@@ -3,9 +3,6 @@ kind: workflow
 name: Register ECR Binary
 
 on:
-  push:
-    branches:
-      - "**"
   workflow_dispatch:
 
 jobs:
