@@ -13,7 +13,7 @@ jobs:
         uses: cloudbees-io/jfrog-artifactory-promote-image@v1
         with:
           url: https://cbjfrog.saas-preprod.beescloud.com
-          token: ${{ secrets.JFROG_ACTIONS_TOKEN }}   # token auth; promote API rejects basic-auth password
+          token: ${{ secrets.JFROG_TOKEN }}   # token auth; promote API rejects basic-auth password
           source-repository-name: test
           source-image-name: busybox-test
           source-tag: latest
