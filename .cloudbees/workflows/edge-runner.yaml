@@ -9,6 +9,6 @@ jobs:
   my-edge-job:
     with:
       script: |
-        echo "Helloo world! I'm $(whoami) on $(hostname)."
+        echo "Helloo world!! I'm $(whoami) on $(hostname)."
       labels: "ap-test"
     delegates: cloudbees-io/edge-custom-job/custom-job.yaml
